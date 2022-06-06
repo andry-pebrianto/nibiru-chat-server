@@ -54,7 +54,7 @@ const htmlTemplateTop = `
 
 <body style="background-color: #5E50A1; padding: 20px;">
   <h1 class="auth-title">
-    GoHired
+    Nibiru Chat
   </h1>
 
   <div class="auth-content" style="background-color: white;">
