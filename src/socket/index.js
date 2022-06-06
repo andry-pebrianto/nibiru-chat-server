@@ -2,9 +2,8 @@ const { v4: uuidv4 } = require("uuid");
 const chatModel = require("../models/chat.model");
 
 module.exports = (io, socket) => {
-  socket.on("join-room", (data) => {
+  socket.on("join-room", (id) => {
     try {
-      const { id } = data;
       socket.join(id);
     } catch (error) {
       console.log(error);
