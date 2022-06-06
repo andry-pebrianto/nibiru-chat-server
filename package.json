@@ -1,7 +1,7 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "description": "Web Chat",
+  "description": "Web Chat Nibiru",
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
