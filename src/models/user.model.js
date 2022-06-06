@@ -1,10 +1,12 @@
 const db = require("../config/db");
 
 module.exports = {
-  selectAll: (paging) =>
+  selectAll: (paging, search = "") =>
     new Promise((resolve, reject) => {
+      console.log(search);
       db.query(
-        `SELECT * FROM users LIMIT ${paging.limit} OFFSET ${paging.offset}`,
+        `SELECT * FROM users WHERE LOWER(username) LIKE '%'||LOWER($1)||'%'`,
+        [search],
         (error, result) => {
           if (error) {
             reject(error);

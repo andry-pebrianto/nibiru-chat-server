@@ -8,16 +8,16 @@ const deleteFile = require('../utils/deleteFile');
 module.exports = {
   list: async (req, res) => {
     try {
-      const { page, limit } = req.query;
+      const { search, page, limit } = req.query;
       const count = await userModel.countAll();
       const paging = createPagination(count.rows[0].count, page, limit);
-      const users = await userModel.selectAll(paging);
+      const users = await userModel.selectAll(paging, search);
 
       success(res, {
         code: 200,
         payload: users.rows,
         message: 'Select List User Success',
-        pagination: paging.response,
+        // pagination: paging.response,
       });
     } catch (error) {
       failed(res, {
