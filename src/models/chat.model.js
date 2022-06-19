@@ -17,6 +17,17 @@ module.exports = {
       );
     });
   },
+  deleteChat: (id) => {
+		return new Promise((resolve, reject) => {
+			db.query("DELETE FROM chats WHERE id=$1", [id], (err, result) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+			});
+		});
+	},
   list: (sender, receiver) => {
     return new Promise((resolve, reject) => {
       db.query(
