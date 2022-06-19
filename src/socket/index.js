@@ -43,6 +43,20 @@ module.exports = (io, socket) => {
       console.log(error);
     }
   });
+  socket.on("edit-message", async (data) => {
+    try {
+      const { sender, receiver, chatId, chat } = data;
+      // update chat by id
+      await chatModel.updateChat(chatId, chat);
+      // select all chat related to sender & receiver
+      const listChats = await chatModel.listChat(sender, receiver);
+
+      io.to(sender).emit("send-message-response", listChats.rows);
+      io.to(receiver).emit("send-message-response", listChats.rows);
+    } catch (error) {
+      console.log(error);
+    }
+  });
   socket.on("chat-history", async (data) => {
     try {
       const { sender, receiver } = data;

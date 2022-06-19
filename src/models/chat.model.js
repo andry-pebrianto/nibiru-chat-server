@@ -19,7 +19,18 @@ module.exports = {
   },
   deleteChat: (id) => {
 		return new Promise((resolve, reject) => {
-			db.query("DELETE FROM chats WHERE id=$1", [id], (err, result) => {
+			db.query("UPDATE chats SET is_deleted=true WHERE id=$1", [id], (err, result) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+			});
+		});
+	},
+  updateChat: (id, newMessage) => {
+		return new Promise((resolve, reject) => {
+			db.query("UPDATE chats SET chat=$1 WHERE id=$2", [newMessage, id], (err, result) => {
 				if (err) {
 					reject(err);
 				} else {
