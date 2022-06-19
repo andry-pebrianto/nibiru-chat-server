@@ -1,15 +1,15 @@
-const { v4: uuidv4 } = require("uuid");
-const chatModel = require("../models/chat.model");
+const { v4: uuidv4 } = require('uuid');
+const chatModel = require('../models/chat.model');
 
 module.exports = (io, socket) => {
-  socket.on("join-room", (id) => {
+  socket.on('join-room', (id) => {
     try {
       socket.join(id);
     } catch (error) {
       console.log(error);
     }
   });
-  socket.on("send-message", async (data) => {
+  socket.on('send-message', async (data) => {
     try {
       const { sender, receiver, chat } = data;
       // insert new chat
@@ -19,17 +19,17 @@ module.exports = (io, socket) => {
         receiver,
         chat,
         date: new Date(),
-        chatType: "text",
+        chatType: 'text',
       });
       // select all chat related to sender & receiver
       const listChat = await chatModel.list(sender, receiver);
 
-      io.to(data.receiver).emit("send-message-response", listChat.rows);
+      io.to(data.receiver).emit('send-message-response', listChat.rows);
     } catch (error) {
       console.log(error);
     }
   });
-  socket.on("delete-message", async (data) => {
+  socket.on('delete-message', async (data) => {
     try {
       const { sender, receiver, chatId } = data;
       // delete chat by id
@@ -37,33 +37,35 @@ module.exports = (io, socket) => {
       // select all chat related to sender & receiver
       const listChats = await chatModel.listChat(sender, receiver);
 
-      io.to(sender).emit("send-message-response", listChats.rows);
-      io.to(receiver).emit("send-message-response", listChats.rows);
+      io.to(sender).emit('send-message-response', listChats.rows);
+      io.to(receiver).emit('send-message-response', listChats.rows);
     } catch (error) {
       console.log(error);
     }
   });
-  socket.on("edit-message", async (data) => {
+  socket.on('edit-message', async (data) => {
     try {
-      const { sender, receiver, chatId, chat } = data;
+      const {
+        sender, receiver, chatId, chat,
+      } = data;
       // update chat by id
       await chatModel.updateChat(chatId, chat);
       // select all chat related to sender & receiver
       const listChats = await chatModel.listChat(sender, receiver);
 
-      io.to(sender).emit("send-message-response", listChats.rows);
-      io.to(receiver).emit("send-message-response", listChats.rows);
+      io.to(sender).emit('send-message-response', listChats.rows);
+      io.to(receiver).emit('send-message-response', listChats.rows);
     } catch (error) {
       console.log(error);
     }
   });
-  socket.on("chat-history", async (data) => {
+  socket.on('chat-history', async (data) => {
     try {
       const { sender, receiver } = data;
       // select all chat related to sender & receiver
       const listChat = await chatModel.list(sender, receiver);
 
-      io.to(sender).emit("send-message-response", listChat.rows);
+      io.to(sender).emit('send-message-response', listChat.rows);
     } catch (error) {
       console.log(error);
     }

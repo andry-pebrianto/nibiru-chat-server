@@ -1,10 +1,10 @@
-const http = require("http");
+const http = require('http');
 const express = require('express');
-const socket = require("socket.io");
+const socketIo = require('socket.io');
 const helmet = require('helmet');
 const xss = require('xss-clean');
 const cors = require('cors');
-const socketController = require("./src/socket");
+const socketController = require('./src/socket');
 const { APP_NAME, NODE_ENV, PORT } = require('./src/utils/env');
 const { failed } = require('./src/utils/createResponse');
 
@@ -38,13 +38,13 @@ app.use((req, res) => {
 });
 
 const server = http.createServer(app);
-const io = socket(server, {
+const io = socketIo(server, {
   cors: {
-    origin: "*",
+    origin: '*',
   },
 });
-io.on("connection", (socket) => {
-  console.log("New user connected to socket");
+io.on('connection', (socket) => {
+  console.log('New user connected to socket');
   socketController(io, socket);
 });
 
