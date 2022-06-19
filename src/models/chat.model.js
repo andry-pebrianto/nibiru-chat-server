@@ -39,7 +39,7 @@ module.exports = {
   }),
   list: (sender, receiver) => new Promise((resolve, reject) => {
     db.query(
-      `SELECT userSender.photo AS photo, chats.date, chats.id, chats.chat, chats.is_deleted, userSender.id AS sender_id, userReceiver.id AS receiver_id FROM chats LEFT JOIN users AS userSender ON chats.sender=userSender.id LEFT JOIN users AS userReceiver ON chats.receiver=userReceiver.id WHERE (sender='${sender}' AND receiver='${receiver}') OR (sender='${receiver}' AND receiver='${sender}')`,
+      `SELECT userSender.photo AS photo, chats.date, chats.id, chats.chat, chats.is_deleted, userSender.id AS sender_id, userReceiver.id AS receiver_id FROM chats LEFT JOIN users AS userSender ON chats.sender=userSender.id LEFT JOIN users AS userReceiver ON chats.receiver=userReceiver.id WHERE (sender='${sender}' AND receiver='${receiver}') OR (sender='${receiver}' AND receiver='${sender}') ORDER BY chats.date`,
       (err, res) => {
         if (err) {
           reject(err);
