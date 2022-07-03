@@ -20,8 +20,8 @@ This is a Restful API repository for Nibiru Chat. This Restful API is built usin
 - [PostgreSQL](https://www.postgresql.org/)
 - [JWT](https://jwt.io/)
 - [Google APIs](https://github.com/googleapis/google-api-nodejs-client)
-- [Bcrypt](https://www.npmjs.com/package/bcrypt)
 - [Nodemailer](https://nodemailer.com/about/)
+- [Bcrypt](https://www.npmjs.com/package/bcrypt)
 
 ## Getting Started
 
