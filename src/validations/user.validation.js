@@ -6,7 +6,7 @@ const updateProfile = [
   check('username', 'Username only can contains alphabet').isAlpha('en-US', {
     ignore: ' ',
   }),
-  check('username', 'Username maximum length is 100 characters').isLength({ max: 100 }),
+  check('username', 'Username maximum length is 50 characters').isLength({ max: 50 }),
   // phone
   check('phone', 'Phone only can contains number').isNumeric(),
   check('phone', 'Phone maximum length is 13 characters').isLength({ max: 13 }),
