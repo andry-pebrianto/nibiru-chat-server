@@ -31,10 +31,6 @@ exports.up = (pgm) => {
     photo: {
       type: "VARCHAR(205)",
     },
-    is_verified: {
-      type: "INTEGER",
-      default: 0,
-    },
     email_token: {
       type: "VARCHAR(205)",
     },
@@ -44,6 +40,11 @@ exports.up = (pgm) => {
       default: pgm.func("current_timestamp"),
     },
   });
+
+  pgm.sql(`
+    ALTER TABLE users
+    ADD COLUMN is_verified BOOLEAN DEFAULT FALSE;
+  `);
 };
 
 exports.down = (pgm) => {
