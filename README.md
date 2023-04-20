@@ -3,7 +3,7 @@
 </div>
 <h3 align="center">Nibiru Chat API</h3>
 <p align="center">
-  <a href="https://nibiru-chat.herokuapp.com/">View API Demo</a>
+  <a href="https://nibiru-chat-api.onrender.com/">View API Demo</a>
   ·
   <a href="https://github.com/andry-pebrianto/nibiruchat-api/issues">Report Bug</a>
 </p>
@@ -38,11 +38,11 @@ PORT=
 API_URL=
 
 # database
-DB_HOST=
-DB_USER=
-DB_PASSWORD=
-DB_NAME=
-DB_PORT=
+PGUSER=
+PGHOST=
+PGPASSWORD=
+PGDATABASE=
+PGPORT=
 
 # jwt
 JWT_SECRET=
