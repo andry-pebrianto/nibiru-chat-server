@@ -1,9 +1,8 @@
 const userModel = require('../models/user.model');
 const createPagination = require('../utils/createPagination');
 const { success, failed } = require('../utils/createResponse');
-const uploadGoogleDrive = require('../utils/uploadGoogleDrive');
-const deleteGoogleDrive = require('../utils/deleteGoogleDrive');
 const deleteFile = require('../utils/deleteFile');
+const uploadToCloudinary = require('../utils/uploadToCloudinary');
 
 module.exports = {
   list: async (req, res) => {
@@ -110,14 +109,9 @@ module.exports = {
       let { photo } = user.rows[0];
       // jika ada upload photo
       if (req.files) {
+        // upload photo
         if (req.files.photo) {
-          // menghapus photo sebelumnya di gd jika sebelumnya sudah pernah upload
-          if (user.rows[0].photo) {
-            await deleteGoogleDrive(user.rows[0].photo);
-          }
-          // upload photo baru ke gd
-          photo = await uploadGoogleDrive(req.files.photo[0]);
-          // menghapus photo setelah diupload ke gd
+          photo = await uploadToCloudinary(req.files.photo[0]);
           deleteFile(req.files.photo[0].path);
         }
       }

@@ -1,30 +1,38 @@
-const bcrypt = require('bcrypt');
-const crypto = require('crypto');
-const { v4: uuidv4 } = require('uuid');
-const authModel = require('../models/auth.model');
-const userModel = require('../models/user.model');
-const sendEmail = require('../utils/email/sendEmail');
-const activateAccountEmail = require('../utils/email/activateAccountEmail');
-const jwtToken = require('../utils/generateJwtToken');
-const { success, failed } = require('../utils/createResponse');
-const { APP_NAME, EMAIL_FROM, API_URL } = require('../utils/env');
+const bcrypt = require("bcrypt");
+const crypto = require("crypto");
+const { v4: uuidv4 } = require("uuid");
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { Resend } = require("resend");
+const authModel = require("../models/auth.model");
+const userModel = require("../models/user.model");
+const activateAccountEmail = require("../utils/email/activateAccountEmail");
+const jwtToken = require("../utils/generateJwtToken");
+const { success, failed } = require("../utils/createResponse");
+const {
+  APP_NAME,
+  EMAIL_FROM,
+  API_URL,
+  RESEND_API_KEY,
+} = require("../utils/env");
+
+const resend = new Resend(RESEND_API_KEY);
 
 module.exports = {
   register: async (req, res) => {
     try {
-      const user = await userModel.findBy('email', req.body.email);
+      const user = await userModel.findBy("email", req.body.email);
       if (user.rowCount) {
         failed(res, {
           code: 409,
-          payload: 'Email already exist',
-          message: 'Register Failed',
+          payload: "Email already exist",
+          message: "Register Failed",
         });
         return;
       }
 
       const { username, email } = req.body;
       const password = await bcrypt.hash(req.body.password, 10);
-      const token = crypto.randomBytes(30).toString('hex');
+      const token = crypto.randomBytes(30).toString("hex");
 
       const insertData = await authModel.register({
         id: uuidv4(),
@@ -36,32 +44,33 @@ module.exports = {
 
       await authModel.updateToken(insertData.rows[0].id, token);
 
-      // send email for activate account
+      // send email for reset password
       const templateEmail = {
-        from: `"${APP_NAME}" <${EMAIL_FROM}>`,
+        from: `${APP_NAME} <${EMAIL_FROM}>`,
         to: req.body.email.toLowerCase(),
-        subject: 'Activate Your Account!',
+        subject: "Activate Your Account!",
         html: activateAccountEmail(`${API_URL}/auth/activation/${token}`),
       };
-      sendEmail(templateEmail);
+      const result = await resend.emails.send(templateEmail);
+      console.log(result);
 
       success(res, {
         code: 201,
         payload: null,
-        message: 'Register Success',
+        message: "Register Success",
       });
     } catch (error) {
       failed(res, {
         code: 500,
         payload: error.message,
-        message: 'Internal Server Error',
+        message: "Internal Server Error",
       });
     }
   },
   activation: async (req, res) => {
     try {
       const { token } = req.params;
-      const user = await userModel.findBy('email_token', token);
+      const user = await userModel.findBy("email_token", token);
 
       if (!user.rowCount) {
         res.send(`
@@ -72,7 +81,7 @@ module.exports = {
         return;
       }
       await authModel.activateEmail(user.rows[0].id);
-      await authModel.updateToken(user.rows[0].id, '');
+      await authModel.updateToken(user.rows[0].id, "");
 
       res.send(`
       <div>
@@ -90,7 +99,7 @@ module.exports = {
   login: async (req, res) => {
     try {
       const { email, password } = req.body;
-      const user = await userModel.findBy('email', email);
+      const user = await userModel.findBy("email", email);
 
       // jika user ditemukan
       if (user.rowCount > 0) {
@@ -104,7 +113,7 @@ module.exports = {
           success(res, {
             code: 200,
             payload: null,
-            message: 'Login Success',
+            message: "Login Success",
             token: {
               jwt,
               id: user.rows[0].id,
@@ -116,14 +125,14 @@ module.exports = {
 
       failed(res, {
         code: 401,
-        payload: 'Wrong Email or Password',
-        message: 'Login Failed',
+        payload: "Wrong Email or Password",
+        message: "Login Failed",
       });
     } catch (error) {
       failed(res, {
         code: 500,
         payload: error.message,
-        message: 'Internal Server Error',
+        message: "Internal Server Error",
       });
     }
   },

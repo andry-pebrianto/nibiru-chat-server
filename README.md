@@ -3,9 +3,7 @@
 </div>
 <h3 align="center">Nibiru Chat API</h3>
 <p align="center">
-  <a href="https://nibiru-chat-api.onrender.com/">View API Demo</a>
-  ·
-  <a href="https://github.com/andry-pebrianto/nibiruchat-api/issues">Report Bug</a>
+  <a href="https://github.com/andry-pebrianto/nibiru-chat-server/issues">Report Bug</a>
 </p>
 
 <!-- ABOUT THE PROJECT -->
@@ -27,7 +25,7 @@ This is a Restful API repository for Nibiru Chat. This Restful API is built usin
 
 ### Installation
 
-- Clone this project with `git clone https://github.com/andry-pebrianto/nibiruchat-api.git`
+- Clone this project with `git clone https://github.com/andry-pebrianto/nibiru-chat-server.git`
 - Install package required with `npm install`
 - Setting .env
 
@@ -36,41 +34,38 @@ APP_NAME=
 NODE_ENV=
 PORT=
 API_URL=
-
-# database
+CLIENT_URL=
 PGUSER=
 PGHOST=
 PGPASSWORD=
 PGDATABASE=
 PGPORT=
-
-# jwt
+PGSSLMODE=
 JWT_SECRET=
-
-# google
-EMAIL_FROM=
 EMAIL_USER=
-GOOGLE_CLIENT_ID=
-GOOGLE_CLIENT_SECRET=
-REDIRECT_URI=
-GMAIL_REFRESH_TOKEN=
-DRIVE_REFRESH_TOKEN=
+EMAIL_FROM=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+CLOUDINARY_CLOUD_NAME=
+RESEND_API_KEY=
+VIRTUAL_HOST=
+LETSENCRYPT_HOST=
+LETSENCRYPT_EMAIL=
+MAX_OLD_SPACE_SIZE=
 ```
+
+- Migrate database using `npm run migrate up`
 
 ### Executing program
 
 - Run program with `npm run dev` for development and `npm run start` for production
-
-## Endpoint List
-
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/13299472-95b35893-0243-4e38-aa85-c16051da1c37?action=collection%2Ffork&collection-url=entityId%3D13299472-95b35893-0243-4e38-aa85-c16051da1c37%26entityType%3Dcollection%26workspaceId%3Dfe5f6a4d-a8db-4a39-9852-e54fd7754e4c)
 
 <!-- RELATED PROJECT -->
 
 ## Related Project
 
 - [Nibiru Chat Client](https://github.com/andry-pebrianto/nibiruchat-client)
-- [Nibiru Chat Demo](https://nibiruchat.netlify.app/)
+- [Nibiru Chat Demo](https://nibiruchat.andrypebrianto.com)
 
 ## Authors
 
