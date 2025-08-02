@@ -1,3 +1,4 @@
+const v8 = require("v8");
 const http = require('http');
 const express = require('express');
 const socketIo = require('socket.io');
@@ -53,4 +54,9 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log(`Server started on port ${PORT} with ${NODE_ENV} environment`);
   console.log(`Visit http://localhost:${PORT}`);
   console.log('Developed by Andry Pebrianto');
+  console.log(
+    "Max old space size:",
+    v8.getHeapStatistics().heap_size_limit / 1024 / 1024,
+    "MB",
+  );
 });
